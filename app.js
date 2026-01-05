@@ -1,18 +1,19 @@
 const workouts = {
   day1: [
-    { name: "Bench press", sets: "4× 8–10", tip: "Lopatky stáhni k sobě, nohy pevně na zemi." },
-    { name: "Upažování", sets: "3× 12–15", tip: "Zvedej jen do výšky ramen, bez švihu." },
-    { name: "Plank", sets: "3× 45 s", tip: "Tělo v jedné linii, břicho zatnuté." }
-  ],
-  day2: [
-    { name: "Kliky", sets: "4× max", tip: "Tělo rovně, lokty cca 45°." },
-    { name: "Zkracovačky", sets: "3× 20", tip: "Pohyb z břicha, netahej hlavu." }
-  ],
-  day3: [
-    { name: "Stahování kladky", sets: "4× 8–10", tip: "Táhni lokty dolů, ne za krk." }
-  ],
-  day5: [
-    { name: "Hollow body hold", sets: "3× 30 s", tip: "Bedra přitiskni k zemi." }
+    {
+      name: "Bench press",
+      sets: 4,
+      reps: "8–10",
+      image: "images/bench_press.png",
+      tip: "Lopatky stáhni k sobě, nohy pevně na zemi."
+    },
+    {
+      name: "Upažování",
+      sets: 3,
+      reps: "12–15",
+      image: "images/lateral_raise.png",
+      tip: "Zvedej jen do výšky ramen, bez švihu."
+    }
   ]
 };
 
@@ -20,14 +21,39 @@ function openDay(day) {
   const section = document.getElementById("workout");
   section.innerHTML = "";
 
-  workouts[day].forEach(cvik => {
+  workouts[day].forEach((cvik, i) => {
+    const saved = JSON.parse(localStorage.getItem(day + i)) || [];
+
     const div = document.createElement("div");
     div.className = "workout-card";
+
     div.innerHTML = `
       <h3>${cvik.name}</h3>
-      <p><strong>${cvik.sets}</strong></p>
+
+      <img src="${cvik.image}" alt="${cvik.name}" class="exercise-img">
+
+      <p><strong>${cvik.sets}× ${cvik.reps}</strong></p>
       <p>👉 ${cvik.tip}</p>
+
+      <div class="sets">
+        ${Array.from({ length: cvik.sets }).map((_, s) => `
+          <label>
+            <input type="checkbox"
+              ${saved[s] ? "checked" : ""}
+              onchange="saveSet('${day}', ${i}, ${s}, this.checked)">
+            série ${s + 1}
+          </label>
+        `).join("")}
+      </div>
     `;
+
     section.appendChild(div);
   });
+}
+
+function saveSet(day, exerciseIndex, setIndex, checked) {
+  const key = day + exerciseIndex;
+  const data = JSON.parse(localStorage.getItem(key)) || [];
+  data[setIndex] = checked;
+  localStorage.setItem(key, JSON.stringify(data));
 }
