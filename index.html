@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Můj trénink</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+</head>
+
+<body>
+  <header>
+    <h1>🏋️ Můj trénink</h1>
+  </header>
+
+  <main>
+    <button class="day" onclick="openDay('day1')">Den 1 – Posilovna</button>
+    <button class="day" onclick="openDay('day2')">Den 2 – Doma</button>
+    <button class="day" onclick="openDay('day3')">Den 3 – Posilovna</button>
+    <button class="day" onclick="openDay('day5')">Den 5 – Core</button>
+
+    <section id="workout"></section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
